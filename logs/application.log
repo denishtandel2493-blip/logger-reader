@@ -1,0 +1,8 @@
+2026-07-18 16:20:28 [INFO] Application Started
+2026-07-18 16:20:28 [INFO] Processing Request 1
+2026-07-18 16:20:30 [INFO] Processing Request 2
+2026-07-18 16:20:32 [INFO] Processing Request 3
+2026-07-18 16:20:34 [INFO] Processing Request 4
+2026-07-18 16:20:36 [INFO] Processing Request 5
+2026-07-18 16:20:38 [WARNING] Application is shutting down
+2026-07-18 16:20:38 [INFO] Application Stopped
