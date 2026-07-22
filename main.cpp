@@ -1,33 +1,45 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <thread>
 #include <chrono>
 
-#include "Logger.h"
-
 int main()
 {
-    Logger logger("logs/application.log");
+    const std::string logFile = "logs/application.log";
 
-    std::cout << "===== Logger Started =====" << std::endl;
+    std::ifstream file(logFile);
 
-    logger.info("Application Started");
-
-    for (int i = 1; i <= 10; i++)
+    if (!file.is_open())
     {
-        std::string message = "Processing Request " + std::to_string(i);
-
-        logger.info(message);
-
-        std::cout << message << std::endl;
-
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        std::cerr << "Unable to open log file: " << logFile << std::endl;
+        return 1;
     }
 
-    logger.warning("Application is shutting down");
+    // શરૂઆતમાં file ના અંતે જાઓ (જૂના logs skip કરવા)
+    file.seekg(0, std::ios::end);
 
-    logger.info("Application Stopped");
+    std::cout << "===== Logger Reader Started =====" << std::endl;
 
-    std::cout << "===== Logger Finished =====" << std::endl;
+    while (true)
+    {
+        std::string line;
+
+        // નવી lines વાંચો
+        while (std::getline(file, line))
+        {
+            std::cout << "[NEW LOG] " << line << std::endl;
+
+            // અહીં processing કરો
+            // sendToAPI(line);
+            // saveToDatabase(line);
+        }
+
+        // EOF clear કરો જેથી આગળ ફરી વાંચી શકાય
+        file.clear();
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 
     return 0;
 }
